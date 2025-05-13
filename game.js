@@ -1,5 +1,5 @@
-let bird1; 
-let imgBird1;
+let bird; 
+let imgBird;
 let cloud1, cloud2, cloud3;
 let CloudsGroup;
 let ground;
@@ -13,7 +13,7 @@ let gameOver;
 let gameOverImg;
 
 function preload() {
-    imgBird1 = loadAnimation("Bird11.png", "Bird12.PNG", "Bird13.PNG", "Bird14.PNG");
+    imgBird = loadAnimation("Bird11.png", "Bird12.PNG", "Bird13.PNG", "Bird14.PNG");
     cloud1 = loadImage("cloud1.png");
     cloud2 = loadImage("cloud2.png");
     cloud3 = loadImage("cloud3.png");
@@ -23,9 +23,9 @@ function preload() {
 function setup(){
     createCanvas(900, 350);
 
-    bird1 = createSprite(50, 100, 20, 20);
-    bird1.addAnimation("animación", imgBird1);
-    bird1.scale = 0.3;
+    bird = createSprite(50, 100, 20, 20);
+    bird.addAnimation("animación", imgBird);
+    bird.scale = 0.3;
 
     CloudsGroup = new Group();
 
@@ -39,7 +39,7 @@ function setup(){
 
     gameOver = createSprite(450, 170);
     gameOver.addImage(gameOverImg);
-    gameOver.scale = 0.25;
+    gameOver.scale = 0.15;
     gameOver.visible = false;
 
     edge = createEdgeSprites();
@@ -56,8 +56,8 @@ function draw(){
         score += Math.round(getFrameRate() / 60);
         ground.velocityX = -(6 + 3 * score / 100);
         
-        if (keyDown("UP_ARROW")) bird1.y -= 5;
-        if (keyDown("DOWN_ARROW")) bird1.y += 5;
+        if (keyDown("UP_ARROW")) bird.y -= 5;
+        if (keyDown("DOWN_ARROW")) bird.y += 5;
        
 
         //bird1.velocityY += 0.8;
@@ -68,7 +68,7 @@ function draw(){
 
         spawnObstacles();
 
-        if (CloudsGroup.isTouching(bird1) || edge.isTouching(bird1)){
+        if (CloudsGroup.isTouching(bird) || edge.isTouching(bird)){
             gamestate = END;
         }
 
@@ -77,7 +77,7 @@ function draw(){
     else if (gamestate === END) {
         gameOver.visible = true;
 
-        bird1.velocityX = 0;
+        bird.velocityX = 0;
         ground.velocityX = 0;
         CloudsGroup.setVelocityXEach(0);
         CloudsGroup.setLifetimeEach(-1);
@@ -88,7 +88,7 @@ function draw(){
 }
 
 function spawnObstacles() {
-    if (frameCount % 35 === 0) {
+    if (frameCount % 27 === 0) {
         let obstacle = createSprite(800, 165, 10, 40);
         obstacle.y = Math.round(random(10, 340));
         obstacle.velocityX = -(5 + 1 * score / 100);
@@ -100,12 +100,13 @@ function spawnObstacles() {
             case 3: obstacle.addImage(cloud3); break;
         }
 
-        obstacle.scale = 0.35;
+        obstacle.scale = 0.4;
+        obstacle.setCollider ("rectangle", 0,0,175,97)
         obstacle.lifetime = 300;
 
-        obstacle.depth = bird1.depth;
-        bird1.depth = bird1.depth + 1;
-        bird1.depth = gameOver.depth + 1;
+        obstacle.depth = bird.depth;
+        bird.depth = bird.depth + 1;
+        bird.depth = gameOver.depth + 1;
         obstacle.depth = gameOver.depth + 1;
 
         CloudsGroup.add(obstacle); 
@@ -116,6 +117,8 @@ function reset() {
     gamestate = PLAY;
     gameOver.visible = false;
     CloudsGroup.destroyEach();
-    bird1.velocityY = 0;
+    bird.velocityY = 0;
     score = 0;
 }
+
+
