@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<script>
+let num=parseFloat(prompt("dame una calificacion"));
+let num2=parseFloat(prompt("dame otra calificacion"));
+let num3=parseFloat(prompt("dame una ultima calificacion"));
+let suma=(num+num2+num3)
+let divicion=suma/3;
+if(divicion>=6)
+{
+alert("haz aprobado");
+}
+else{
+alert("haz reproado");
+}
+</script>
+</body>
+</html>
+
+
+
+
+
