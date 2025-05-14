@@ -11,6 +11,7 @@ let gamestate = PLAY;
 let edge;
 let gameOver;
 let gameOverImg;
+let gameoverSound;
 
 function preload() {
     imgBird = loadAnimation("Bird11.png", "Bird12.PNG", "Bird13.PNG", "Bird14.PNG");
@@ -18,9 +19,10 @@ function preload() {
     cloud2 = loadImage("cloud2.png");
     cloud3 = loadImage("cloud3.png");
     gameOverImg = loadImage("GameOver.png");
+    gameoverSound = loadSound("gameoverSound.mp3");
 }
 
-function setup(){
+function setup() {
     createCanvas(900, 350);
 
     bird = createSprite(50, 100, 20, 20);
@@ -39,13 +41,13 @@ function setup(){
 
     gameOver = createSprite(450, 170);
     gameOver.addImage(gameOverImg);
-    gameOver.scale = 0.15;
+    gameOver.scale = 0.17;
     gameOver.visible = false;
 
     edge = createEdgeSprites();
 }
 
-function draw(){
+function draw() {
     background("lightBlue");
     textSize(20);
     fill(0);
@@ -70,6 +72,9 @@ function draw(){
 
         if (CloudsGroup.isTouching(bird) || edge.isTouching(bird)){
             gamestate = END;
+            
+    gameoverSound.play();
+
         }
 
         drawSprites();
@@ -120,5 +125,4 @@ function reset() {
     bird.velocityY = 0;
     score = 0;
 }
-
 
